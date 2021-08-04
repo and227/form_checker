@@ -1,0 +1,17 @@
+# test return name
+username=some_username&user_phone=+71234567890&user_email=some_email@gmail.com;"Account form"
+order_name=order name&order_description=order description&create_date=31.07.2021&complite_date=01.08.2021;"Order form"
+description=test description&start_date=31.07.2021&end_date=01.08.2021;"Task form"
+
+# test return name even if more fields
+field1=value1&username=some_username&user_phone=+71234567890&user_email=some_email@gmail.com;"Account form"
+order_name=order name&order_description=order description&field1=value1&create_date=31.07.2021&complite_date=01.08.2021;"Order form"
+description=test description&start_date=31.07.2021&end_date=01.08.2021&field1=value1;"Task form"
+
+# test return types if not all fields
+username=some_username&user_email=some_email@gmail.com;'{"username":"text","user_email":"email"}'
+order_description=order_description&create_date=31.07.2021&complite_date=01.08.2021;'{"order_description":"text","create_date":"date","complite_date":"date"}'
+description=test description&start_date=31.07.2021;'{"description":"text","start_date":"date"}'
+
+# test return types if no matching documet
+field1=email@gmail.com&field2=+71234567890&field3=2021-07-31;'{"field1":"email","field2":"phone","field3":"date"}'

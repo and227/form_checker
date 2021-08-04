@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+  db:
+    image: mongo
+    env_file:
+      - .env
+    ports:
+      - 27017:27017 # remove this line on prod
+
+  db_seed:
+    build:
+      dockerfile: dbseed.Dockerfile
+      context: .
+    depends_on:
+      - db
+    profiles: ["seed"]
+
+  web_app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - type: bind
+        source: ./app
+        target: /app 
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+  tests:
+    build:
+      dockerfile: tests.Dockerfile
+      context: .
+    volumes:
+      - type: bind
+        source: ./tests
+        target: /tests 
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - web_app
+    profiles: ["test"]
